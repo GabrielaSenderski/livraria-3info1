@@ -20,6 +20,7 @@ from core.views import (
     CompraViewSet,
     EditoraViewSet,
     LivroViewSet,
+    UserRegistrationView,
     UserViewSet,
 )
 from uploader.router import router as uploader_router

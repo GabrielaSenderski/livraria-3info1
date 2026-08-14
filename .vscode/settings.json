@@ -16,12 +16,19 @@
     "statusBar.background": "#ff5ca5",
     "statusBar.foreground": "#15202b",
     "statusBarItem.hoverBackground": "#ff2989",
-    "statusBarItem.remoteBackground": "#ff5ca5",
+    "statusBarItem.remoteBackground": "#72ff00",
     "statusBarItem.remoteForeground": "#15202b",
     "titleBar.activeBackground": "#ff5ca5",
     "titleBar.activeForeground": "#15202b",
     "titleBar.inactiveBackground": "#ff5ca599",
-    "titleBar.inactiveForeground": "#15202b99"
+    "titleBar.inactiveForeground": "#15202b99",
+    "activityBarTop.activeBackground": "#ff8fc1",
+    "activityBarTop.background": "#ff8fc1",
+    "activityBarTop.foreground": "#15202b",
+    "activityBarTop.inactiveForeground": "#15202b99",
+    "commandCenter.foreground": "#15202b",
+    "statusBar.debuggingBackground": "#ff5ca5",
+    "statusBar.debuggingForeground": "#15202b"
   },
   "peacock.color": "#FF5CA5",
   "[python]": {

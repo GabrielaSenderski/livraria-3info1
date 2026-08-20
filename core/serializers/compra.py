@@ -26,4 +26,4 @@ class CompraSerializer(ModelSerializer):
     itens = ItensCompraSerializer(many=True, read_only=True)
     class Meta:
         model = Compra
-        fields = '__all__'
+        fields = ('id', 'usuario', 'status', 'total', 'itens')

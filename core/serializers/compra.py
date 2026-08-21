@@ -1,14 +1,20 @@
 from decimal import Decimal
 
 from dill import source
+from django.db import transaction
 from rest_framework.fields import DecimalField
 from rest_framework.serializers import CharField, ModelSerializer, SerializerMethodField
 
 from core.models import Compra, ItensCompra
 
 
-class ItensCompraSerializer(ModelSerializer):
+class ItensCompraCreateUpdateSerializer(ModelSerializer):
+    class Meta:
+        model = ItensCompra
+        fields = ('livro', 'quantidade')
 
+
+class ItensCompraSerializer(ModelSerializer):
     total = SerializerMethodField()
 
     def get_total(self, instance):
@@ -20,10 +26,28 @@ class ItensCompraSerializer(ModelSerializer):
         depth = 1
 
 
+class CompraCreateUpdateSerializer(ModelSerializer):
+    itens = ItensCompraCreateUpdateSerializer(many=True)
+
+    class Meta:
+        model = Compra
+        fields = ('id', 'usuario', 'itens')
+
+    @transaction.atomic
+    def create(self, validated_data):
+        itens_data = validated_data.pop('itens')
+        compra = Compra.objects.create(**validated_data)
+        for item_data in itens_data:
+            ItensCompra.objects.create(compra=compra, **item_data)
+        compra.save()
+        return compra
+
+
 class CompraSerializer(ModelSerializer):
     status = CharField(source='get_status_display', read_only=True)
     usuario = CharField(source='usuario.email', read_only=True)
     itens = ItensCompraSerializer(many=True, read_only=True)
+
     class Meta:
         model = Compra
         fields = ('id', 'usuario', 'status', 'total', 'itens')

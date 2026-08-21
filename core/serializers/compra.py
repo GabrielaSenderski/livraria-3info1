@@ -14,6 +14,14 @@ class ItensCompraCreateUpdateSerializer(ModelSerializer):
         fields = ('livro', 'quantidade')
 
 
+class ItensCompraListSerializer(ModelSerializer):
+    livro = CharField(source='livro.titulo', read_only=True)
+
+    class Meta:
+        model = ItensCompra
+        fields = ('quantidade', 'livro')
+
+
 class ItensCompraSerializer(ModelSerializer):
     total = SerializerMethodField()
 
@@ -50,6 +58,15 @@ class CompraCreateUpdateSerializer(ModelSerializer):
             for item_data in itens_data:
                 ItensCompra.objects.create(compra=compra, **item_data)
         return super().update(compra, validated_data)
+
+
+class CompraListSerializer(ModelSerializer):
+    usuario = CharField(source='usuario.email', read_only=True)
+    itens = ItensCompraListSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = Compra
+        fields = ('id', 'usuario', 'itens')
 
 
 class CompraSerializer(ModelSerializer):
